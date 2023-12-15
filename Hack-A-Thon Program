@@ -1,0 +1,294 @@
+import java.util.*;
+import java.lang.*;
+
+class encryption {
+    void caesar(String enc, int shift) {
+        shift %= 26;
+        int i = 0; char curr = 'a';
+        enc = enc.toLowerCase(); String dec = "";
+        StringBuilder sb1 = new StringBuilder(dec);
+        for (i = 0; i < enc.length(); i++) {
+            if (Character.isWhitespace(enc.charAt(i)) || Character.isDigit(enc.charAt(i))) {
+                sb1.append(enc.charAt(i));
+            } else {
+                curr =  (char)((((enc.charAt(i) - 97) + shift) % 26) + 97);
+                /*
+                 * the formula charat i - 97 allows us to gain the exact letter index - 1 ( a = 0; b = 1; etc etc)
+                 * adding shift we get a new letter index which allows us to easily get the exact letter in ascii by re-adding the 97 we took away earlier
+                 */
+                sb1.append(curr);
+                // append adds curr char to the end of the string
+                // iterated i times we replicate the caesar cipher of the original enc string
+            }
+        }
+        System.out.println("Encrypted form of " + enc + " with shift of " + shift + " using caesar cipher = " + sb1);
+        // adaptive print statement based on input & output values
+    }
+
+    void csrdec(String dec, int shift) {
+        shift %= 26;
+        int i = 0; char curr = 'a';
+        dec = dec.toLowerCase(); String enc = "";
+        StringBuilder sb1 = new StringBuilder(enc);
+        for (i = 0; i < dec.length(); i++) {
+            if (Character.isWhitespace(dec.charAt(i)) || Character.isDigit(dec.charAt(i))) {
+                sb1.append(dec.charAt(i));
+            } else {
+                curr =  (char)((((enc.charAt(i) - 97) - shift + 26) % 26) + 97);
+                /*
+                 * the formula charat i - 97 allows us to gain the exact letter index - 1 ( a = 0; b = 1; etc etc)
+                 * subtracting shift we get a new letter index which allows us to easily get the exact letter in ascii by re-adding the 97 we took away earlier
+                 */
+                sb1.append(curr);
+                // append adds curr char to the end of the string
+                // iterated i times we replicate the decrypted caesar cipher of the original enc string
+            }
+        }
+        System.out.println("Decrypted form of " + enc + " with shift of " + shift + " using caesar cipher = " + sb1);
+        // adaptive print statement based on input & output values
+    }
+
+    void vignere(String enc, String key) {
+        enc = enc.toLowerCase();
+        key = key.toLowerCase();
+        String dec = "";
+        int i = 0; int inc = 0; char curr1 = 'a';
+        StringBuilder sb1 = new StringBuilder(dec);
+        while (i < enc.length()) {
+            if (Character.isWhitespace(enc.charAt(i)) || Character.isDigit(enc.charAt(i))) {
+                sb1.append(enc.charAt(i));
+            } else {
+                inc = (int)(key.charAt(i % key.length()) - 97);
+                /*
+                 * we will use i % key length because if enc is longer than key we must divert back to the start of key to actually use the function again
+                 * 
+                 */
+                curr1 = (char)(enc.charAt(i) + inc);
+                sb1.append(curr1);
+                // append adds curr char to the end of the string
+                // iterated i times we replicate the vignere cipher of the original enc string
+            }
+        }
+        System.out.println("Encrypted form of " + enc + " with key " + key + " using vignere cipher = " + sb1);
+        // adaptive print statement based on input & output values
+    }
+
+    void vigdec(String dec, String key) {
+        String enc = "";
+        key = key.toLowerCase();
+        dec = dec.toLowerCase();
+        int i = 0; int dcr = 0; char curr1 = 'a';
+        StringBuilder sb1 = new StringBuilder(enc);
+        while (i < dec.length()) {
+            if (Character.isWhitespace(dec.charAt(i)) || Character.isDigit(dec.charAt(i))) {
+                sb1.append(dec.charAt(i));
+            } else {
+                dcr = (int)(key.charAt(i % key.length()) - 97);
+                /*
+                 * we will use i % key length because if enc is longer than key we must divert back to the start of key to actually use the function again
+                 * 
+                 */
+                curr1 = (char)(enc.charAt(i) - dcr);
+                sb1.append(curr1);
+                // append adds curr char to the end of the string
+                // iterated i times we replicate the decrypted vignere cipher of the original enc string
+            }
+        }
+        System.out.println("Decrypted form of " + dec + " with key " + key + " using vignere cipher = " + sb1);
+        // adaptive print statement based on input & output values
+
+    }
+
+    void atbash(String enc) {
+        int i = 0;
+        enc = enc.toLowerCase();
+        String dec = "";
+        char curr = 'a'; int diff = 0;
+        StringBuilder sb1 = new StringBuilder(dec);
+        while (i < enc.length()) {
+            if (Character.isWhitespace(enc.charAt(i)) || Character.isDigit(enc.charAt(i))) {
+                sb1.append(enc.charAt(i));
+            } else {
+                diff = 122 - enc.charAt(i);
+                curr = (char)(97 + diff);
+                /*
+                 * We are measuring distance from the extremes and replicating it in reverse.
+                 * 122 = z and 97 = a so this means that the difference from 1 downwards will be the Atbash encryption of the difference of the other upwards, and vice versa
+                 */
+                sb1.append(curr);
+            }
+        }
+        System.out.println("Encrypted form of " + enc + " using atbash cipher = " + sb1);
+        // adaptive print statement based on input & output values
+    }
+
+    void atbdec(String dec) {
+        int i = 0;
+        dec = dec.toLowerCase();
+        String enc = "";
+        char curr = 'a'; int diff = 0;
+        StringBuilder sb1 = new StringBuilder(dec);
+        while (i < dec.length()) {
+            if (Character.isWhitespace(dec.charAt(i)) || Character.isDigit(dec.charAt(i))) {
+                sb1.append(dec.charAt(i));
+            } else {
+                diff = 122 - dec.charAt(i);
+                curr = (char)(97 + diff);
+                /*
+                 * We are measuring distance from the extremes and replicating it in reverse.
+                 * 122 = z and 97 = a so this means that the difference from 1 downwards will be the Atbash encryption of the difference of the other upwards, and vice versa
+                 */
+                sb1.append(curr);
+            }
+        }
+        System.out.println("Decrypted form of " + dec + " using atbash cipher = " + sb1);
+        // adaptive print statement based on input & output values
+    }
+
+    void main(String[] args) {
+        System.out.print("\u000c");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to our HackAThon project!");
+        System.out.println("In this interactive program, you will learn about different kinds of cryptography and cryptographic functions.");
+        System.out.println("Encryption is an integral part of modern communication. It comprises all of our online security systems and makes sure information doesn't fall into the wrong hands.");
+        System.out.println("Cryptographic functions are algorithms that encode your data in ingenious ways, allowing for the safe implementation of encryption and decryption.");
+        System.out.println("Press 1 to explore Caesar Cipher.");
+        System.out.println("Press 2 to explore Vignere Cipher.");
+        System.out.println("Press 3 to explore Atbash Cipher.");
+        int choice = sc.nextInt();
+        int ed = 0;
+        boolean flag = false;
+        String e = "";
+        int a = 0;
+        String s = "";
+        boolean point = false;
+        boolean loop = false;
+        int c2 = 0;
+        int c1 = 0;
+        while (!flag) {
+            switch(choice) {
+                case 1:
+                    System.out.println("Caesar Cipher is one of the oldest ciphers used by humans.");
+                    System.out.println("Caesar cipher works on the principle of a shift key.");
+                    System.out.println("Each letter is rolled forwards by an amount of letter corresponding to the shift key.");
+                    System.out.println("Letters which reach Z are rolled backwards to A.");
+                    System.out.println("To decrypt Caesar Cipher, just roll each letter backwards by the number on the shift key. Letters that reach A roll forwards to Z.");
+                    System.out.println("Press 1 to explore caesar cipher encryption, and press 2 to explore caesar cipher decryption.");
+                    ed = sc.nextInt();
+                    while (!loop) {
+                        while (!point) {
+                            switch(ed) {
+                                case 1: 
+                                    System.out.println("Enter a line to encrypt, and then enter the shift key.");
+                                    e = sc.nextLine();
+                                    a = sc.nextInt();
+                                    point = true;
+                                    caesar(e, a);
+                                    break;
+                                case 2:
+                                    System.out.println("Enter an encrypted line, and then enter the shift key.");
+                                    e = sc.nextLine();
+                                    a = sc.nextInt();
+                                    point = true;
+                                    csrdec(e, a);
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice - try again!");
+                            }
+                        }
+                        point = false;
+                        System.out.println("Would you like to move to another cipher, or keep exploring caesar cipher?");
+                        System.out.println("Press 1 to exit. Press any other number to continue.");
+                        c2 = sc.nextInt();
+                        if (c2 == 1) {
+                            break;
+                        }
+                    }
+                    loop = false;
+                    break;
+                case 2:
+                    System.out.println("Vignere Cipher is not quite as rudimentary as caedar cipher, but it is also based on shifting letters..");
+                    System.out.println("Vignere cipher works on the principle of a word key.");
+                    System.out.println("The first letter of the plaintext is rolled forward by an amount that corresponds to the first lettter of the key.");
+                    System.out.println("For example, if the key starts with O, then the first letter of the plaintext will be rolled forward by 14 letters (O is the 14th letter of the alphabet when stating from index 0.).");
+                    System.out.println("To decrypt Vignere Cipher, just roll each letter backwards by the number of the corresponsing letter on the key. Letters that reach A roll forwards to Z.");
+                    System.out.println("If the plaintext is longer than the key, the key can be reused from start to end again with another iteration of plaintext encryption.");
+                    System.out.println("Press 1 to explore vignere cipher encryption, and press 2 to explore vignere cipher decryption.");
+                    ed = sc.nextInt();
+                    while (!loop) {
+                        while (!point) {
+                            switch(ed) {
+                                case 1: 
+                                    System.out.println("Enter a line to encrypt, and then enter the key.");
+                                    e = sc.nextLine();
+                                    s = sc.nextLine();
+                                    point = true;
+                                    vignere(e, s);
+                                    break;
+                                case 2:
+                                    System.out.println("Enter an encrypted line, and then enter the key.");
+                                    e = sc.nextLine();
+                                    s = sc.nextLine();
+                                    point = true;
+                                    vigdec(e, s);
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice - try again!");
+                            }
+                        }
+                        point = false;
+                        System.out.println("Would you like to move to another cipher, or keep exploring vignere cipher?");
+                        System.out.println("Press 1 to exit. Press any other number to continue.");
+                        c2 = sc.nextInt();
+                        if (c2 == 1) {
+                            break;
+                        }
+                    }
+                    loop = false;
+                    break;
+                case 3:
+                    System.out.println("Atbash Cipher is an interesting algorithm because it does not use a key.");
+                    System.out.println("Atbash cipher relies on malicious parties being unaware that you have used it to encrypt your data. ");
+                    System.out.println("This often misleads them into finding arbitrary keys which mask your real information.");
+                    System.out.println("Atbash cipher reverses the order of letters to encrypt data. For example A becomes Z, Z becomes A, B becomes Y, Y, becomes B, and so on.");
+                    System.out.println("To decrypt Atbash Cipher, just re-apply the code onto the encrypted text. It's that simple!");
+                    System.out.println("Press 1 to explore atbash cipher encryption, and press 2 to explore atbash cipher decryption.");
+                    ed = sc.nextInt();
+                    while (!loop) {
+                        while (!point) {
+                            switch(ed) {
+                                case 1: 
+                                    System.out.println("Enter a line to encrypt.");
+                                    e = sc.nextLine();
+                                    point = true;
+                                    atbash(e);
+                                    break;
+                                case 2:
+                                    System.out.println("Enter an encrypted line.");
+                                    e = sc.nextLine();
+                                    point = true;
+                                    atbdec(e);
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice - try again!");
+                            }
+                        }
+                        point = false;
+                        System.out.println("Would you like to move to another cipher, or keep exploring atbash cipher?");
+                        System.out.println("Press 1 to exit. Press any other number to continue.");
+                        c2 = sc.nextInt();
+                        if (c2 == 1) {
+                            loop = true;
+                        }
+                    }
+                    loop = false;
+                    break;
+            }
+            System.out.println("Press 1 to exit the program. Press any other number to continue another cycle of cipher exploration.");
+            c1 = sc.nextInt();
+            if (c1 == 1) {
+                flag = true;
+            }
+        }
+    }
+}
